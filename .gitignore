@@ -3,6 +3,10 @@
 build/
 !gradle/wrapper/gradle-wrapper.jar
 
+# Computer files
+.DS_Store
+*.DS_Store
+
 # IDE files
 .vscode/
 .idea/
