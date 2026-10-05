@@ -1,5 +1,6 @@
 package su.nightexpress.excellenteconomy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -15,6 +16,7 @@ import su.nightexpress.excellenteconomy.data.DataHandler;
 import su.nightexpress.excellenteconomy.migration.MigrationManager;
 import su.nightexpress.excellenteconomy.tops.TopManager;
 import su.nightexpress.excellenteconomy.user.UserManager;
+import su.nightexpress.excellenteconomy.util.FoliaScheduler;
 import su.nightexpress.nightcore.NightPlugin;
 import su.nightexpress.nightcore.bridge.placeholder.PlaceholderProvider;
 import su.nightexpress.nightcore.bridge.placeholder.PlaceholderRegistry;
@@ -52,7 +54,20 @@ public class EconomyPlugin extends NightPlugin {
     protected void onStartup() {
         super.onStartup();
 
+        if (isFolia()) {
+            this.scheduler = new FoliaScheduler(this);
+        }
+
         this.currencyRegistry = new CurrencyRegistry();
+    }
+
+    private static boolean isFolia() {
+        try {
+            Bukkit.class.getMethod("getRegionScheduler");
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
     }
 
     @Override
